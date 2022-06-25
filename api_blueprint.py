@@ -19,7 +19,7 @@ def update_java_thread():
 
 
 # Create page for getting stats of a user
-@server_api.route('/api/stats/player/<username>')
+@server_api.route('/stats/player/<username>')
 def get_user_stats(username):
     data = read_from_json("data/stats.json")
     
@@ -37,7 +37,7 @@ def get_user_stats(username):
 
 
 # Create page for leaderboard that returns top 10 players
-@server_api.route('/api/stats/leaderboard')
+@server_api.route('/stats/leaderboard')
 def get_leaderboard():
     data = read_from_json("data/stats.json")
     sorted_data = sorted(data.items(), key=lambda x: x[1]['playtime'], reverse=True)
@@ -45,11 +45,11 @@ def get_leaderboard():
 
 
 # Create page to return stats of all players
-@server_api.route('/api/stats/all')
+@server_api.route('/stats/all')
 def get_all_stats():
     data = read_from_json("data/stats.json")
     return {"stats": data}
 
-@server_api.route('/api/current_players')
+@server_api.route('/current_players')
 def get_current_players():
     return players

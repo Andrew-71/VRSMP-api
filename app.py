@@ -21,4 +21,4 @@ def main():
 
 if __name__ == '__main__':
     update_java_thread()  # Start thread
-    app.run()  
+    app.run()

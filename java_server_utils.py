@@ -39,6 +39,13 @@ def update_java_status(data):
             new_data['players'].append({'username': i, 'join_time': time.time()})
     new_data['query'] = query_response
 
+    # Log players that have connected and those that have left to connections.log with time
+    with open("connections.log", "a") as f:
+        for i in list(filter(lambda x: x['username'] not in player_names, data['players'])):
+            f.write(time.strftime("%H:%M:%S", time.localtime(time.time())) + " " + i['username'] + " has left the server\n")
+        for i in list(filter(lambda x: x['username'] not in old_players, player_names)):
+            f.write(time.strftime("%H:%M:%S", time.localtime(time.time())) + " " + i['username'] + " has joined the server\n")
+
     update_stats(new_data['players'])
 
     return new_data

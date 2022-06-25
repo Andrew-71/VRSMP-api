@@ -6,7 +6,7 @@ from json_utils import read_from_json, write_to_json
 
 import time
 
-vrsmp = JavaServer.lookup("villagerrights.xyz:7110")
+vrsmp = JavaServer.lookup("villagerrights.xyz")
 
 
 # Get Minecraft user's UUID from their username

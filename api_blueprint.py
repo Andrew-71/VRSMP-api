@@ -19,7 +19,7 @@ def update_java_thread():
 
 
 # Create page for getting stats of a user
-@server_api.route('/api/stats/<username>')
+@server_api.route('/api/stats/player/<username>')
 def get_user_stats(username):
     data = read_from_json("data/stats.json")
     
@@ -49,3 +49,7 @@ def get_leaderboard():
 def get_all_stats():
     data = read_from_json("data/stats.json")
     return {"stats": data}
+
+@server_api.route('/api/current_players')
+def get_current_players():
+    return players

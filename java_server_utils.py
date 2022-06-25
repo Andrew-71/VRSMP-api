@@ -23,7 +23,10 @@ def update_java_status(data):
     try:
         query_response = request("GET", "https://api.mcsrvstat.us/2/villagerrights.xyz").json()  #vrsmp.query()
         # player_names = query_response.players.names
-        player_names = query_response['players']['list']
+        try:
+            player_names = query_response['players']['list']
+        except KeyError:
+            player_names = query_response['info']['raw']
     except TimeoutError:
         return {"online": False, "players": []}
 

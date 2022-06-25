@@ -2,4 +2,5 @@ __pycache__
 .idea
 test.py
 .vscode
+data/connections.log
 data/stats.json

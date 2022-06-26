@@ -4,3 +4,4 @@ test.py
 .vscode
 data/connections.log
 data/stats.json
+.DS_Store

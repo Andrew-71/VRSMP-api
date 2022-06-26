@@ -1,0 +1,13 @@
+/* Body style */
+body {
+    padding-left: 20px; 
+    padding-right: 20px; 
+    padding-top: 25px; 
+    
+    background-color: #40826D; 
+    color: ghostwhite
+}
+
+a:link {
+    color: ghostwhite
+}

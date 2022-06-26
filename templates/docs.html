@@ -15,23 +15,45 @@
     <script>hljs.highlightAll();</script>
 
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/js/bootstrap.bundle.min.js"></script>
 </head>
 
 <!--center all content on the page, do not use php-->
 <body style="padding-left: 20px; padding-right: 20px; padding-top: 25px">
-    <h1 class="text-center">The VRSMP API docs</h1>
-    <p>Hello, and welcome to VillagerRights SMP's official api docs.</p>
-    <p>This system allows you to get info about server status, statistics of players and more!</p>
 
-    <h3>How to call the API in Python</h3>
-    <p>Some of you may be wondering, "How do I call this API?". Good question!</p>
-    <p>You do it the same way you call other APIs, here is an example in Python:</p>
+    <div class="alert alert-warning alert-dismissible fade show" role="alert">
+        <strong>Under construction!</strong> The api is not yet finished, use at your own risk.
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+
+    <h1 class="text-center">The VRSMP API docs</h1>
+    <p>Hello, and welcome to VillagerRights SMP's official api docs.<br>
+        This system allows you to get info about server status, statistics of players and more!</p>
+
+    <h3>Current players API</h3>
+    <p>This is likely the API you would use the most. 
+        It returns list of players currently online on the server along with when they joined. It also adds full server query in case you want that.<br>
+        The url for the call is <code>api.villagerrights.xyz/status/current_players</code><br>
+        The response format is this:</p>
+        <pre><code>
+            {"online": true,
+            "players": [{"username": "user1", "join_time": 135938445},
+                        {"username": "user2", "join_time": 135938542},
+                        {"username": "user3", "join_time": 135938143}]},
+            "query": {(full server query)}}
+        </code></pre>
+
+    <h3>How to use the API in Python</h3>
+    <p>Some of you may be wondering, "How do I call this API?". Good question!<br>
+        You do it the same way you call other APIs, here is an example in Python:</p>
     <pre><code>
         from requests import request  # First, import the module used to access web urls
 
         request_response = request("GET", "api.villagerrights.xyz/status/current_players")  # Then make the API call you need
 
         data = request_response.json()  # Convert the response to JSON format. JSON is identical to Python dictionary.
+
+        # Now data contains dictionary with the api's response!
     </code></pre>
 
 </body>

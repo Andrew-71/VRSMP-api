@@ -6,23 +6,35 @@ from json_utils import read_from_json, write_to_json
 
 import time
 
-# vrsmp = JavaServer.lookup("villagerrights.xyz")
-
 
 # Get Minecraft user's UUID from their username
-# use Mojang api to get UUID
-# https://api.mojang.com/users/profiles/minecraft/<username>
 def get_uuid(username):
     url = "https://api.mojang.com/users/profiles/minecraft/" + username
     response = request("GET", url)
     return response.json()['id']
+
+# Get Minecraft user's username from their username
+def get_username(uuid):
+    if uuid[0] == '.':
+        return uuid
+    url = "https://api.mojang.com/user/profiles/" + uuid + "/names"
+    response = request("GET", url)
+    return response.json()[0]['name']
+
+
+def log_connections(new_players, old_players):
+    # Log players that have connected and those that have left to connections.log with time
+    with open("data/connections.log", "a") as f:
+        for i in list(filter(lambda x: x not in new_players, old_players)):
+            f.write(time.strftime("%H:%M:%S", time.localtime(time.time())) + " " + i + " has left the server\n")
+        for i in list(filter(lambda x: x not in old_players, new_players)):
+            f.write(time.strftime("%H:%M:%S", time.localtime(time.time())) + " " + i + " has joined the server\n")
 
 
 # Update our status of current online players
 def update_java_status(data):
     try:
         query_response = request("GET", "https://api.mcsrvstat.us/2/villagerrights.xyz").json()  #vrsmp.query()
-        # player_names = query_response.players.names
         try:
             player_names = query_response['players']['list']
         except KeyError:
@@ -42,12 +54,7 @@ def update_java_status(data):
             new_data['players'].append({'username': i, 'join_time': time.time()})
     new_data['query'] = query_response
 
-    # Log players that have connected and those that have left to connections.log with time
-    with open("connections.log", "a") as f:
-        for i in list(filter(lambda x: x not in player_names, old_players)):
-            f.write(time.strftime("%H:%M:%S", time.localtime(time.time())) + " " + i + " has left the server\n")
-        for i in list(filter(lambda x: x not in old_players, player_names)):
-            f.write(time.strftime("%H:%M:%S", time.localtime(time.time())) + " " + i + " has joined the server\n")
+    log_connections(player_names, old_players)
 
     update_stats(new_data['players'])
 
@@ -58,16 +65,16 @@ def update_java_status(data):
 def update_stats(players):
     data = read_from_json("data/stats.json")
     for i in players:
-        # We need to check for Bedrock players who have a dot as first character in their username
-        # For them we will use their username as id since they don't have a UUID
+
         if i['username'][0] == ".":
-            uuid = i['username']
+            uuid = i['username']  # Bedrock player
         else:
-            uuid = get_uuid(i['username'])
+            uuid = get_uuid(i['username'])  # Java player
 
         if uuid in data:
             data[uuid]['playtime'] += 10  # Add 10 seconds to their playtime since we check the server every 10 seconds
         else:
             data[uuid] = {'playtime': 10, "first_seen": time.time()}
         data[uuid]['last_seen'] = time.time()
+        data[uuid]['username'] = get_username(uuid)
     write_to_json(data, "data/stats.json")

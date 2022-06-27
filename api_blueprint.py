@@ -1,5 +1,4 @@
 # Create flask blueprint for Minecraft server api with all routes from app.py
-from sys import api_version
 import threading
 from flask import Blueprint, render_template, request
 

@@ -1,6 +1,7 @@
 # Create flask blueprint for Minecraft server api with all routes from app.py
+from sys import api_version
 import threading
-from flask import Blueprint, request
+from flask import Blueprint, render_template, request
 
 from java_server_utils import get_uuid, update_java_status
 from json_utils import read_from_json
@@ -71,3 +72,8 @@ def get_connections():
         last = 10
     with open("connections.log", "r") as f:
         return f.readlines()[-last:]
+
+
+@server_api.route('/docs')
+def docs():
+    return render_template('docs.html')

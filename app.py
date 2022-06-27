@@ -1,4 +1,4 @@
-from flask import Flask, render_template
+from flask import Flask, redirect, render_template
 
 from api_blueprint import server_api, update_java_thread
 
@@ -9,7 +9,7 @@ app.register_blueprint(server_api)
 
 @app.route('/')
 def main():
-    return render_template('docs.html')
+    return redirect('/docs')
 
 
 if __name__ == '__main__':

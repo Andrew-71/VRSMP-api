@@ -9,11 +9,15 @@ import time
 
 # Get Minecraft user's UUID from their username
 def get_uuid(username):
-    if username[0] == '.':
-        return username
-    url = "https://api.mojang.com/users/profiles/minecraft/" + username
-    response = request("GET", url)
-    return response.json()['id']
+    try:
+        if username[0] == '.':
+            return username
+        url = "https://api.mojang.com/users/profiles/minecraft/" + username
+        response = request("GET", url)
+        return response.json()['id']
+    except KeyError:
+        print(username, response.json())
+        return response.json()['id']
 
 # Get Minecraft user's username from their username
 def get_username(uuid):

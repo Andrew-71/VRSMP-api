@@ -54,7 +54,6 @@ def update_java_status(data):
                     break
         else:
             new_data['players'].append({'username': i, 'join_time': time.time()})
-    new_data['query'] = query_response
 
     log_connections(player_names, old_players)
 

@@ -48,7 +48,7 @@ def get_leaderboard():
             top = len(data)
         if top < 1:
             top = 1
-    return sorted(data.values(), key=lambda x: x['playtime'], reverse=True)[:top]
+    return {"leaderboard": sorted(data.values(), key=lambda x: x['playtime'], reverse=True)[:top]}
 
 
 # Create page to return stats of all players
@@ -70,7 +70,7 @@ def get_connections():
     else:
         last = 10
     with open("connections.log", "r") as f:
-        return f.readlines()[-last:]
+        return {"log": f.readlines()[-last:]}
 
 
 @server_api.route('/docs')

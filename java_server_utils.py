@@ -17,7 +17,7 @@ def get_uuid(username):
         return response.json()['id']
     except KeyError:
         print(username, response.json())
-        return response.json()['id']
+        return "7509fd1c7c14457ea25b5a571148a502"
 
 # Get Minecraft user's username from their username
 def get_username(uuid):

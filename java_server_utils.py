@@ -9,6 +9,8 @@ import time
 
 # Get Minecraft user's UUID from their username
 def get_uuid(username):
+    if username[0] == '.':
+        return username
     url = "https://api.mojang.com/users/profiles/minecraft/" + username
     response = request("GET", url)
     return response.json()['id']
@@ -65,11 +67,7 @@ def update_java_status(data):
 def update_stats(players):
     data = read_from_json("data/stats.json")
     for i in players:
-
-        if i['username'][0] == ".":
-            uuid = i['username']  # Bedrock player
-        else:
-            uuid = get_uuid(i['username'])  # Java player
+        uuid = get_uuid(i['username'])  # Java player
 
         if uuid in data:
             data[uuid]['playtime'] += 10  # Add 10 seconds to their playtime since we check the server every 10 seconds
